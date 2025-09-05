@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade your plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f7f7f8;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: #e5e5e5;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+        }
+
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #8b5cf6;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .plan-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .currency {
+            font-size: 24px;
+            color: #666;
+            margin-right: 4px;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .price-period {
+            font-size: 16px;
+            color: #666;
+            margin-left: 8px;
+        }
+
+        .plan-description {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 32px;
+            line-height: 1.4;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 32px;
+        }
+
+        .btn-free {
+            background: #f3f4f6;
+            color: #1a1a1a;
+            border: 2px solid #e5e7eb;
+        }
+
+        .btn-free:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-plus {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-plus:hover {
+            background: #5856eb;
+        }
+
+        .btn-pro {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-pro:hover {
+            background: #333;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            color: #4b5563;
+            font-size: 15px;
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            font-size: 18px;
+            color: #1a1a1a;
+            display: none;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .plans-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .plans-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="close-btn" id="closeBtn">×</button>
+        
+        <h1 class="title">Upgrade your plan</h1>
+        
+        <div class="plans-container">
+            <!-- Free Plan -->
+            <div class="plan-card">
+                <h2 class="plan-name">Free</h2>
+                <div class="plan-price">
+                    <span class="currency">$</span>
+                    <span class="price">0</span>
+                    <span class="price-period">USD / month</span>
+                </div>
+                <p class="plan-description">Intelligence for everyday tasks</p>
+                <button class="plan-button btn-free" data-plan="free">Keep Free</button>
+                
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        Access to GPT-5
+                    </li>
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        Limited file uploads
+                    </li>
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                        Limited and slower image generation
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Plus Plan -->
+            <div class="plan-card">
+                <div class="popular-badge">POPULAR</div>
+                <h2 class="plan-name">Plus</h2>
+                <div class="plan-price">
+                    <span class="currency">$</span>
+                    <span class="price">20</span>
+                    <span class="price-period">USD / month</span>
+                </div>
+                <p class="plan-description">More access to advanced intelligence</p>
+                <button class="plan-button btn-plus" data-plan="plus">Get Plus</button>
+                
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        GPT-5 with advanced reasoning
+                    </li>
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        Expanded messaging and uploads
+                    </li>
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                        Expanded and faster image creation
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="plan-card">
+                <h2 class="plan-name">Pro</h2>
+                <div class="plan-price">
+                    <span class="currency">$</span>
+                    <span class="price">200</span>
+                    <span class="price-period">USD / month</span>
+                </div>
+                <p class="plan-description">Full access to the best of ChatGPT</p>
+                <button class="plan-button btn-pro" data-plan="pro">Get Pro</button>
+                
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        GPT-5 with pro reasoning
+                    </li>
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                        </svg>
+                        Unlimited messages and uploads
+                    </li>
+                    <li class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                        Unlimited and faster image creation
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="popup" id="popup">
+        You chose to exit and choose none of the plans.
+    </div>
+
+    <script>
+        // Initialize tracking variables
+        let pageLoadTime = Date.now();
+        let allClicks = [];
+        let finalChoice = '';
+        
+        // Get existing query parameters
+        function getExistingParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            for (const [key, value] of urlParams) {
+                params[key] = value;
+            }
+            return params;
+        }
+
+        // Calculate time since page load
+        function getTimeSinceLoad() {
+            return ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+        }
+
+        // Track click events
+        function trackClick(element, contextInfo) {
+            const timeStamp = getTimeSinceLoad();
+            const clickData = `${contextInfo}-${timeStamp}`;
+            allClicks.push(clickData);
+            console.log('Click tracked:', clickData);
+        }
+
+        // Build redirect URL with parameters
+        function buildRedirectURL(choice = '') {
+            const baseURL = 'https://baylor.qualtrics.com/jfe/form/SV_0eU6urJp5CU5qMC';
+            const existingParams = getExistingParams();
+            const params = new URLSearchParams(existingParams);
+            
+            // Add tracking parameters
+            params.set('allClicks', allClicks.join(','));
+            if (choice) {
+                params.set('finalChoice', choice);
+            }
+            params.set('decisionTime', getTimeSinceLoad());
+            
+            return `${baseURL}?${params.toString()}`;
+        }
+
+        // Handle plan selection
+        function handlePlanSelection(plan) {
+            let contextInfo = '';
+            switch(plan) {
+                case 'free':
+                    contextInfo = 'KeepFree_FreePlan$0';
+                    break;
+                case 'plus':
+                    contextInfo = 'GetPlus_PlusPlan$20';
+                    break;
+                case 'pro':
+                    contextInfo = 'GetPro_ProPlan$200';
+                    break;
+            }
+            
+            finalChoice = contextInfo;
+            trackClick(null, contextInfo);
+            
+            // Redirect immediately
+            window.location.href = buildRedirectURL(contextInfo);
+        }
+
+        // Handle close button
+        function handleClose() {
+            trackClick(null, 'CloseButton_ExitPlans');
+            
+            // Show popup
+            document.getElementById('popupOverlay').style.display = 'block';
+            document.getElementById('popup').style.display = 'block';
+            
+            // Hide popup after 2 seconds and redirect
+            setTimeout(() => {
+                document.getElementById('popupOverlay').style.display = 'none';
+                document.getElementById('popup').style.display = 'none';
+                window.location.href = buildRedirectURL();
+            }, 2000);
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Plan buttons
+            document.querySelectorAll('.plan-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const plan = this.getAttribute('data-plan');
+                    handlePlanSelection(plan);
+                });
+            });
+
+            // Close button
+            document.getElementById('closeBtn').addEventListener('click', handleClose);
+
+            // Track all clicks for analytics
+            document.addEventListener('click', function(e) {
+                // Don't double-track plan buttons and close button as they have specific handlers
+                if (!e.target.classList.contains('plan-button') && e.target.id !== 'closeBtn') {
+                    let contextInfo = 'UnknownElement';
+                    
+                    // Try to get meaningful context
+                    if (e.target.textContent) {
+                        contextInfo = e.target.textContent.replace(/\s+/g, '_').substring(0, 50);
+                    }
+                    
+                    trackClick(e.target, contextInfo);
+                }
+            });
+        });
+
+        // Handle page visibility change (if user leaves page)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'hidden') {
+                // Store current state in case user comes back
+                sessionStorage.setItem('allClicks', JSON.stringify(allClicks));
+                sessionStorage.setItem('pageLoadTime', pageLoadTime.toString());
+            }
+        });
+
+        // Restore state if returning to page
+        if (sessionStorage.getItem('allClicks')) {
+            allClicks = JSON.parse(sessionStorage.getItem('allClicks'));
+            pageLoadTime = parseInt(sessionStorage.getItem('pageLoadTime'));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Premium Plans</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            background-color: #121212;
+            color: white;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 6px;
+            width: 100%;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.2rem;
+            margin-top: 7vh;
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .plans-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 25vh;
+            height: 55vh;
+            overflow-y: visible;
+        }
+
+        .free-plan-container {
+            width: 100%;
+            max-width: 387px;
+            position: absolute;
+            top: 87vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 25vh;
+        }
+
+        /* New styles for the above-fold free button */
+        .free-button-container {
+            position: absolute;
+            top: 95vh; /* Adjust to align with "Free" text */
+            right: calc(50% - 193.5px + 20px); /* Right-align within the free plan container */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 10;
+        }
+
+        .compact-free-button {
+            background-color: #B19CD9;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .compact-free-button:hover {
+            transform: scale(1.05);
+            background-color: #9d8bc7;
+        }
+
+        .plan, .free-plan {
+            flex: 1;
+            min-width: 250px;
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            border: 3px solid white;
+            border-width: thin;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .free-plan {
+            width: 100%;
+        }
+
+        .plan:hover, .free-plan:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .promo-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FF69B4; /* Pink for Individual */
+            color: white;
+            padding: 8px 15px;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .plan[data-plan="duo"] .promo-banner {
+            display: none;
+        }
+
+        .plan[data-plan="family"] .promo-banner {
+            display: none;
+        }
+
+        .spotify-logo {
+            display: flex;
+            align-items: center;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .spotify-logo svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        .spotify-logo span {
+            font-weight: bold;
+            color: white;
+        }
+
+        .plan-title {
+            font-size: 1.55rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .plan[data-plan="individual"] .plan-title {
+            color: #FF69B4; /* Pink */
+        }
+
+        .plan[data-plan="family"] .plan-title {
+            color: #1DB954; /* Green */
+        }
+
+        .plan[data-plan="duo"] .plan-title {
+            color: #FFD700; /* Gold */
+        }
+
+        .free-plan .plan-title {
+            color: #B19CD9; /* Pale Purple */
+        }
+
+        .price-info {
+            margin-bottom: 20px;
+        }
+
+        .free-month {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .monthly-price {
+            font-size: 1.1rem;
+            color: #b3b3b3;
+        }
+
+        .plan-features {
+            list-style-type: none;
+            margin-bottom: 15px;
+            margin-top: 5px;
+        }
+
+        .plan-features li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+            color: #b3b3b3;
+        }
+
+        .plan-features li::before {
+            content: "•";
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 10px; /* Reduced height */
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem; /* Slightly smaller font */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            max-width: 80%; /* Reduced width */
+            align-self: center; /* Center in the container */
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+        }
+
+        .plan-cta {
+            margin-top: auto;
+        }
+        
+        /* Button colors matching plan title colors */
+        .plan[data-plan="individual"] .plan-cta {
+            background-color: #FF69B4; /* Pink */
+        }
+        
+        .plan[data-plan="family"] .plan-cta {
+            background-color: #1DB954; /* Green */
+        }
+        
+        .plan[data-plan="duo"] .plan-cta {
+            background-color: #FFD700; /* Gold */
+            color: #121212; /* Better contrast with gold */
+        }
+        
+        .free-plan .plan-cta {
+            background-color: #B19CD9; /* Pale Purple */
+        }
+
+        .disclaimer {
+            font-size: 0.78rem;
+            color: #b3b3b3;
+            text-align: center;
+            margin-top: 7px;
+            max-width: 700px;
+        }
+
+        @media (max-width: 768px) {
+            .plans-container {
+                flex-direction: column;
+            }
+
+            .plan, .free-plan {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .free-button-container {
+                top: 98vh;
+                right: calc(50% - 150px + 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Pick Your Plan:</h1>
+    </div>
+
+    <div class="plans-container">
+        <div class="plan" data-plan="individual">
+            <div class="spotify-logo">
+                <span>Premium</span>
+            </div>
+            <div class="plan-title">Individual</div>
+            <div class="price-info">
+                <div class="monthly-price">US$0 for 1 month, $2.99/month after</div>
+            </div>
+            <ul class="plan-features">
+                <li>1 Premium account</li>
+                <li>Ad-free music listening</li>
+            </ul>
+            <button class="cta-button plan-cta" data-plan="individual">Get Individual Plan</button>
+        </div>
+
+        <div class="plan" data-plan="family">
+            <div class="spotify-logo">
+                <span>Premium</span>
+            </div>
+            <div class="plan-title">Family</div>
+            <div class="price-info">
+                <div class="monthly-price">US$4.99/month</div>
+            </div>
+            <ul class="plan-features">
+                <li>Up to 6 Premium accounts</li>
+                <li>Ad-free & block explicit music</li>
+            </ul>
+            <button class="cta-button plan-cta" data-plan="family">Get Family Plan</button>
+        </div>
+
+        <div class="plan" data-plan="duo">
+            <div class="spotify-logo">
+                <span>Premium</span>
+            </div>
+            <div class="plan-title">Duo</div>
+            <div class="price-info">
+                <div class="monthly-price">US$3.99/month</div>
+            </div>
+            <ul class="plan-features">
+                <li>2 Premium accounts</li>
+                <li>Ad-free music listening</li>
+            </ul>
+            <button class="cta-button plan-cta" data-plan="duo">Get Duo Plan</button>
+        </div>
+    </div>
+
+    <!-- New compact free button above the fold -->
+    <div class="free-button-container">
+        <button class="compact-free-button" id="compact-free-cta" data-plan="free">Get Free Plan</button>
+    </div>
+
+    <div class="free-plan-container">
+        <div class="free-plan" data-plan="free">
+            <div class="plan-title">Free</div>
+            <div class="price-info">
+                <div class="monthly-price">US$0/month</div>
+            </div>
+            <p class="disclaimer">You will never be billed for the Free plan, even after the first month. Features include ad-supported music streaming and limited offline listening.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedPlan = null;
+            let allClicksPlan = [];
+            let hasSeenFreeForeverButton = false;
+
+            const plans = document.querySelectorAll('.plan');
+            const planButtons = document.querySelectorAll('.plan-cta');
+            const freePlanCtaButton = document.getElementById('free-plan-cta');
+            const compactFreeCtaButton = document.getElementById('compact-free-cta');
+
+            plans.forEach(plan => {
+                plan.addEventListener('click', function() {
+                    plans.forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedPlan = this.getAttribute('data-plan');
+                    allClicksPlan.push(selectedPlan);
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        hasSeenFreeForeverButton = true;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            if (freePlanCtaButton) {
+                observer.observe(freePlanCtaButton);
+            }
+
+            // Track time and scroll behavior
+            let timeScroll = "NA";
+            let maxScroll = 0;
+            const startTime = performance.now();
+
+            let scrolled = false;
+            window.addEventListener('scroll', () => {
+                const currentTime = performance.now();
+                if (!scrolled) {
+                    timeScroll = ((currentTime - startTime) / 1000).toFixed(2);
+                    scrolled = true;
+                }
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (docHeight > 0) {
+                    const percentScrolled = (scrollTop / docHeight) * 100;
+                    if (percentScrolled > maxScroll) {
+                        maxScroll = percentScrolled;
+                    }
+                }
+            });
+
+            function handleRedirect(planType, isFreeForever) {
+                const baseUrl = 'https://baylor.qualtrics.com/jfe/form/SV_bj6USH81rVOxK6y';
+                
+                // Get existing query parameters from current URL
+                const currentParams = new URLSearchParams(window.location.search);
+
+                if (selectedPlan === null && planType !== null) {
+                    selectedPlan = planType;
+                    allClicksPlan.push(selectedPlan);
+                }
+
+                currentParams.set('selectedPlan', selectedPlan || '');
+                currentParams.set('allClicksPlan', allClicksPlan.join(','));
+                currentParams.set('isFreeForever', isFreeForever);
+                currentParams.set('hasSeenFreeForeverButton', hasSeenFreeForeverButton);
+
+                // Add new scroll/time metrics
+                const timeSpent = ((performance.now() - startTime) / 1000).toFixed(2);
+                currentParams.set('timeSpent', timeSpent);
+                currentParams.set('timeScroll', timeScroll);
+                currentParams.set('maxScroll', maxScroll.toFixed(2));
+
+                window.location.href = `${baseUrl}?${currentParams.toString()}`;
+            }
+
+            planButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const planType = this.getAttribute('data-plan');
+                    const isFreeForever = planType === 'free';
+                    handleRedirect(planType, isFreeForever);
+                });
+            });
+
+            // Add event listener for the new compact free button
+            compactFreeCtaButton.addEventListener('click', function() {
+                const planType = this.getAttribute('data-plan');
+                const isFreeForever = planType === 'free';
+                handleRedirect(planType, isFreeForever);
+            });
+        });
+    </script>
+
+</body>
+</html>
