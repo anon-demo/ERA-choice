@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Plan - Hulu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1c1c1c;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .plans-container {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 32px;
+            text-align: center;
+            flex: 1;
+            max-width: 360px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .plan-card.popular {
+            border-color: #00ed82;
+            transform: scale(1.05);
+        }
+
+        .plan-card.selected {
+            border-color: #00ed82;
+            box-shadow: 0 8px 24px rgba(0, 237, 130, 0.2);
+        }
+
+        .plan-card.popular::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            height: 4px;
+            background: #00ed82;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .popular-badge {
+            background: #6c757d;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .plan-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1c1c1c;
+            margin-bottom: 24px;
+        }
+
+        .plan-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .pricing {
+            margin-bottom: 32px;
+        }
+
+        .pricing-main {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1c1c1c;
+            margin-bottom: 8px;
+        }
+
+        .pricing-sub {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: 2px solid #ddd;
+            background: white;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-btn:hover {
+            background: #f8f9fa;
+            border-color: #999;
+        }
+
+        .select-btn.selected {
+            background: #1c1c1c;
+            color: white;
+            border-color: #1c1c1c;
+        }
+
+        .select-btn.selected:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        .fine-print {
+            font-size: 14px;
+            color: #999;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .plans-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .plan-card {
+                max-width: 400px;
+                width: 100%;
+            }
+
+            .plan-card.popular {
+                transform: none;
+            }
+
+            .header h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Choose Your Plan</h1>
+            <p>Switch plans or cancel anytime.</p>
+        </div>
+
+        <div class="plans-container">
+            <!-- Hulu No Ads Plan -->
+            <div class="plan-card" data-plan="HuluNoAds">
+                <h2 class="plan-title">Hulu (No Ads)</h2>
+                <p class="plan-description">
+                    Our ad-free plan lets you watch exclusive series, hit movies, Originals, 
+                    kids shows, and tons more with no ad interruptions.
+                </p>
+                <div class="pricing">
+                    <div class="pricing-main">Get First Month Free</div>
+                    <div class="pricing-sub">then $11.99/month</div>
+                </div>
+                <button class="select-btn" data-plan="HuluNoAds" data-price="$11.99">SELECT</button>
+                <div class="fine-print">
+                    A few excluded shows play with ads.
+                </div>
+            </div>
+
+            <!-- Hulu Standard Plan (Most Popular) -->
+            <div class="plan-card popular selected" data-plan="Hulu">
+                <div class="popular-badge">Most Popular</div>
+                <h2 class="plan-title">Hulu</h2>
+                <p class="plan-description">
+                    Our ad-supported plan lets you watch exclusive series, hit movies, Originals, 
+                    kids shows, and tons more.
+                </p>
+                <div class="pricing">
+                    <div class="pricing-main">Get First Month Free</div>
+                    <div class="pricing-sub">then $5.99/month</div>
+                </div>
+                <button class="select-btn selected" data-plan="Hulu" data-price="$5.99">SELECT</button>
+            </div>
+
+            <!-- Hulu + Live TV Plan -->
+            <div class="plan-card" data-plan="HuluLiveTV">
+                <h2 class="plan-title">Hulu + Live TV</h2>
+                <p class="plan-description">
+                    Watch 60+ channels live & on-demand and get unlimited access to our ad-supported streaming library.
+                </p>
+                <div class="pricing">
+                    <div class="pricing-main">Get First Week Free</div>
+                    <div class="pricing-sub">then $54.99/month</div>
+                </div>
+                <button class="select-btn" data-plan="HuluLiveTV" data-price="$54.99">SELECT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize tracking variables
+        let pageLoadTime = Date.now();
+        let allClicks = [];
+        let finalChoice = '';
+        let decisionTime = 0;
+        let selectedPlan = 'Hulu'; // Default selection
+
+        // Get existing query parameters
+        function getExistingParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            for (const [key, value] of urlParams) {
+                params[key] = value;
+            }
+            return params;
+        }
+
+        // Calculate time since page load
+        function getTimeSinceLoad() {
+            return ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+        }
+
+        // Track click events
+        function trackClick(element, contextInfo) {
+            const timestamp = getTimeSinceLoad();
+            const clickData = `${contextInfo}-${timestamp}`;
+            allClicks.push(clickData);
+        }
+
+        // Update visual selection state
+        function updateSelection(planName) {
+            // Remove selected class from all cards and buttons
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelectorAll('.select-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            // Add selected class to the chosen plan card and button
+            const selectedCard = document.querySelector(`[data-plan="${planName}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                const selectedButton = selectedCard.querySelector('.select-btn');
+                if (selectedButton) {
+                    selectedButton.classList.add('selected');
+                }
+            }
+
+            selectedPlan = planName;
+        }
+
+        // Add click tracking to all interactive elements
+        function addClickTracking() {
+            // Track plan card clicks
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'BUTTON') {
+                        const planName = this.dataset.plan;
+                        const price = this.querySelector('.pricing-sub').textContent.replace('then ', '');
+                        trackClick(this, `PlanCard_${planName}${price}`);
+                        
+                        // Update selection when card is clicked
+                        updateSelection(planName);
+                    }
+                });
+            });
+
+            // Track select button clicks
+            document.querySelectorAll('.select-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const planName = this.dataset.plan;
+                    const price = this.dataset.price;
+                    const contextInfo = `Select_${planName}${price}`;
+                    
+                    trackClick(this, contextInfo);
+                    finalChoice = contextInfo.replace('Select_', '');
+                    decisionTime = parseFloat(getTimeSinceLoad());
+                    
+                    // Update selection before redirecting
+                    updateSelection(planName);
+                    
+                    // Redirect with all tracking data
+                    redirectToQualtrics();
+                });
+            });
+        }
+
+        // Redirect to Qualtrics with tracking data
+        function redirectToQualtrics() {
+            const existingParams = getExistingParams();
+            const params = new URLSearchParams(existingParams);
+            
+            // Add tracking parameters
+            params.set('allClicks', allClicks.join(','));
+            params.set('finalChoice', finalChoice);
+            params.set('decisionTime', decisionTime.toString());
+            
+            const redirectUrl = `https://example.qualtrics.com?${params.toString()}`;
+            window.location.href = redirectUrl;
+        }
+
+        // Add hover effects and interactions
+        function addInteractiveEffects() {
+            // Plan card hover effects
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('popular') && !this.classList.contains('selected')) {
+                        this.style.borderColor = '#00ed82';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('popular') && !this.classList.contains('selected')) {
+                        this.style.borderColor = 'transparent';
+                    }
+                });
+            });
+
+            // Button click effects
+            document.querySelectorAll('.select-btn').forEach(button => {
+                button.addEventListener('mousedown', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                button.addEventListener('mouseup', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // Initialize all functionality when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            addClickTracking();
+            addInteractiveEffects();
+            
+            // Track page load
+            console.log('Page loaded at:', new Date().toISOString());
+        });
+
+        // Track any clicks on the page for comprehensive analytics
+        document.addEventListener('click', function(e) {
+            // Only track if not already tracked by specific handlers
+            if (!e.target.closest('.plan-card') && !e.target.classList.contains('select-btn')) {
+                const elementText = e.target.textContent?.trim() || e.target.tagName;
+                const timestamp = getTimeSinceLoad();
+                trackClick(e.target, `General_${elementText.replace(/\s+/g, '')}-${timestamp}`);
+            }
+        });
+    </script>
+</body>
+</html>
