@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Prime - Join Prime and elevate your Amazon experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Amazon Ember", Arial, sans-serif;
+            background-color: #f3f3f3;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #131921;
+            color: white;
+            padding: 0;
+        }
+
+        .header-top {
+            background-color: #232f3e;
+            padding: 8px 0;
+            font-size: 12px;
+        }
+
+        .header-top .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .account-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-main {
+            padding: 10px 0;
+        }
+
+        .header-main .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-container {
+            flex: 1;
+            display: flex;
+            max-width: 600px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            background-color: #febd69;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .nav-bar {
+            background-color: #232f3e;
+            padding: 8px 0;
+        }
+
+        .nav-bar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 5px 0;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: #febd69;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .prime-logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .prime-logo::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            right: 20px;
+            width: 40px;
+            height: 3px;
+            background-color: #febd69;
+            border-radius: 2px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .hero h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .hero-price {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .explore-plans {
+            color: #febd69;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        .join-prime-btn {
+            background: #FFD814;
+            color: #0F1111;
+            border: 1px solid #FCD200;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: normal;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px 0 rgba(213,217,217,.5);
+        }
+
+        .join-prime-btn:hover {
+            background-color: #f3a847;
+        }
+
+        .student-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .student-link a {
+            color: #febd69;
+            text-decoration: underline;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background-color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .benefits h2 {
+            color: #0066cc;
+            font-size: 32px;
+            margin-bottom: 50px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .delivery-icon {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="60" fill="%23ff9900"/><rect x="30" y="40" width="60" height="40" rx="5" fill="white"/><circle cx="45" cy="85" r="8" fill="white"/><circle cx="75" cy="85" r="8" fill="white"/></svg>');
+        }
+
+        .streaming-icon {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="60" fill="%230066cc"/><rect x="25" y="35" width="70" height="50" rx="5" fill="white"/><polygon points="50,45 50,65 70,55" fill="%230066cc"/></svg>');
+        }
+
+        .deals-icon {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="60" fill="%23ff9900"/><rect x="30" y="30" width="60" height="60" rx="5" fill="white"/><text x="60" y="70" text-anchor="middle" font-size="24" fill="%23ff9900">%</text></svg>');
+        }
+
+        .benefit-item h3 {
+            color: #0066cc;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .benefit-item p {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Choose Your Plan */
+        .choose-plan {
+            background-color: #37475a;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .choose-plan h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .choose-plan-subtitle {
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .plans-container {
+            max-width: 880px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .plan-option {
+            flex: 1;
+            background-color: white;
+            color: #333;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .plan-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .plan-option.selected {
+            border-color: #0066cc;
+            background-color: #f0f8ff;
+        }
+
+        .plan-radio {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 15px;
+            position: static;
+        }
+
+        .plan-name {
+            font-size: 15.5px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+
+        .plan-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .plan-period {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .start-trial-btn {
+            background: #FFD814;
+            color: #0F1111;
+            border: 1px solid #FCD200;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: normal;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px 0 rgba(213,217,217,.5);
+        }
+
+        .start-trial-btn:hover {
+            background: #F7CA00;
+            border-color: #F2C200;
+            box-shadow: 0 2px 5px 0 rgba(213,217,217,.6);
+        }
+
+        .start-trial-btn:active {
+            background: #F0B800;
+            box-shadow: 0 1px 3px rgba(0,0,0,.2) inset;
+        }
+
+        .discount-info {
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .discount-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .discount-badge {
+            background-color: #0066cc;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* FAQ Section */
+        .faq {
+            background-color: white;
+            padding: 60px 20px;
+        }
+
+        .faq h2 {
+            color: #0066cc;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .faq-question {
+            padding: 20px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .faq-question:hover {
+            color: #0066cc;
+        }
+
+        .faq-arrow {
+            transition: transform 0.2s;
+        }
+
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #232f3e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .back-to-top {
+            background-color: #37475a;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-to-top:hover {
+            background-color: #485769;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .plans-container {
+                flex-direction: column;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-main .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="location">
+                    <span>📍 Delivering to Nashville 37217</span>
+                    <span style="cursor: pointer;">Update location</span>
+                </div>
+                <div class="account-info">
+                    <span>Hello, sign in</span>
+                    <span>Account & Lists</span>
+                    <span>Returns & Orders</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo" onclick="trackClick('Amazon_Logo')">amazon</div>
+                <div class="search-container">
+                    <select style="padding: 10px; border: none; background: #f3f3f3;">
+                        <option>All</option>
+                    </select>
+                    <input type="text" class="search-input" placeholder="Search Amazon" onclick="trackClick('Search_Input')">
+                    <button class="search-btn" onclick="trackClick('Search_Button')">🔍</button>
+                </div>
+                <div class="header-right">
+                    <div onclick="trackClick('Language_EN')">🇺🇸 EN</div>
+                    <div onclick="trackClick('Account_Lists')">Account & Lists</div>
+                    <div onclick="trackClick('Returns_Orders')">Returns & Orders</div>
+                    <div class="cart" onclick="trackClick('Cart_0items')">
+                        🛒 <span style="color: #febd69; font-weight: bold;">0</span> Cart
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+            <div class="container">
+                <div class="nav-item" onclick="trackClick('Nav_All')">☰ All</div>
+                <div class="nav-item" onclick="trackClick('Nav_AmazonHaul')">Amazon Haul</div>
+                <div class="nav-item" onclick="trackClick('Nav_MedicalCare')">Medical Care</div>
+                <div class="nav-item" onclick="trackClick('Nav_Luxury')">Luxury</div>
+                <div class="nav-item" onclick="trackClick('Nav_BestSellers')">Best Sellers</div>
+                <div class="nav-item" onclick="trackClick('Nav_AmazonBasics')">Amazon Basics</div>
+                <div class="nav-item" onclick="trackClick('Nav_NewReleases')">New Releases</div>
+                <div class="nav-item" onclick="trackClick('Nav_Groceries')">Groceries</div>
+                <div class="nav-item" onclick="trackClick('Nav_Prime')">Prime</div>
+                <div class="nav-item" onclick="trackClick('Nav_TodaysDeals')">Today's Deals</div>
+                <div class="nav-item" onclick="trackClick('Nav_Books')">Books</div>
+                <div class="nav-item" onclick="trackClick('Nav_GiftCards')">Gift Cards</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="prime-logo">prime</div>
+        <h1>Join Prime and</h1>
+        <h2>elevate your Amazon experience</h2>
+        <p class="hero-description">Free delivery, award-winning TV, exclusive deals, and more</p>
+        <p class="hero-price">Prime is only $14.99/month (plus tax). Cancel anytime.</p>
+        <button class="join-prime-btn" onclick="redirectToQualtrics('JoinPrime_HeroButton')">Join Prime</button>
+
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <h2>Check out what's included with Prime:</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item" onclick="trackClick('Benefit_FastFreeDelivery')">
+                <div class="benefit-icon delivery-icon"></div>
+                <h3>Fast, free delivery</h3>
+                <p>Enjoy Same-Day, One-Day, and Two-Day Delivery on millions of items.</p>
+            </div>
+            <div class="benefit-item" onclick="trackClick('Benefit_UnlimitedStreaming')">
+                <div class="benefit-icon streaming-icon"></div>
+                <h3>Unlimited streaming</h3>
+                <p>Prime Video brings you new releases, award-winning Originals, and live sports. Watch what you love on any device with limited ads.</p>
+            </div>
+            <div class="benefit-item" onclick="trackClick('Benefit_ExclusiveDeals')">
+                <div class="benefit-icon deals-icon"></div>
+                <h3>Exclusive deals & savings</h3>
+                <p>Enjoy daily deals on thousands of items and access exclusive savings events like Prime Day.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Choose Your Plan -->
+    <section class="choose-plan">
+        <h2>Choose your plan</h2>
+        <p class="choose-plan-subtitle">Enjoy your free 30-day trial of Prime. After Prime is just $14.99 per month. Cancel anytime.</p>
+        
+        <div class="plans-container">
+            <div class="plan-option selected" data-plan="monthly" onclick="selectPlan('monthly', 'PrimeMonthly_$14.99_permonthaftertrial')">
+                <input type="radio" name="plan" class="plan-radio" value="monthly" checked>
+                <div class="plan-name">Prime Monthly</div>
+                <div class="plan-price">$14.99</div>
+                <div class="plan-period">per month after trial</div>
+            </div>
+            <div class="plan-option" data-plan="annual" onclick="selectPlan('annual', 'PrimeAnnual_$139_peryearaftertrial')">
+                <input type="radio" name="plan" class="plan-radio" value="annual">
+                <div class="plan-name">Prime Annual</div>
+                <div class="plan-price">$139</div>
+                <div class="plan-period">per year after trial</div>
+            </div>
+            <div class="plan-option" data-plan="young-adults" onclick="selectPlan('young-adults', 'PrimeYoungAdults_$7.49_permonthaftertrial')">
+                <input type="radio" name="plan" class="plan-radio" value="young-adults">
+                <div class="plan-name">Prime for Young Adults</div>
+                <div class="plan-price">$7.49</div>
+                <div class="plan-period">per month after trial</div>
+            </div>
+            <div class="plan-option" data-plan="access" onclick="selectPlan('access', 'PrimeAccess_$6.99_permonthaftertrial')">
+                <input type="radio" name="plan" class="plan-radio" value="access">
+                <div class="plan-name">Prime Access</div>
+                <div class="plan-price">$6.99</div>
+                <div class="plan-period">per month after trial</div>
+            </div>
+        </div>
+        
+        <button class="start-trial-btn" onclick="redirectToQualtrics('StartTrial_30DayTrial')">Start your free 30-day trial</button>
+        
+        <div class="discount-info">
+            <p>Learn more about plan discounts up to 50% off for:</p>
+            <div class="discount-badges">
+                <div class="discount-badge" onclick="trackClick('Discount_18to24YearOlds')">18-24 year olds and students</div>
+                <div class="discount-badge" onclick="trackClick('Discount_QualifiedGovernmentAssistance')">Qualified Government Assistance</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <h2>You may be wondering</h2>
+        <div class="faq-container">
+            <div class="faq-item" onclick="toggleFAQ(this, 'FAQ_PrimeBenefits')">
+                <div class="faq-question">
+                    Where can I learn more about the various Prime benefits?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You can learn more about all Prime benefits on our Prime benefits page, which includes detailed information about shipping, streaming, shopping, and more exclusive perks.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this, 'FAQ_ShareBenefits')">
+                <div class="faq-question">
+                    Can I share my Prime benefits with other household members?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! You can share your Prime benefits with one other adult and up to four children in your household through Amazon Household.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this, 'FAQ_CancellationPolicy')">
+                <div class="faq-question">
+                    If I'm not satisfied, what is the Prime cancellation policy? Will I be refunded?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You can cancel your Prime membership anytime. If you cancel during your free trial, you won't be charged. If you cancel after being charged, we'll refund the full amount if you haven't used any Prime benefits.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this, 'FAQ_BillingSchedule')">
+                <div class="faq-question">
+                    When will I be billed for my membership?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You'll be billed at the end of your free trial period. For monthly memberships, you'll be charged monthly. For annual memberships, you'll be charged once per year.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <button class="back-to-top" onclick="scrollToTop(); trackClick('BackToTop_Footer')">Back to top</button>
+        <div style="padding: 20px;">
+            <p>&copy; 2024 Amazon.com, Inc. or its affiliates</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tracking variables
+        let pageLoadTime = Date.now();
+        let allClicks = [];
+        let selectedPlan = 'monthly'; // Pre-select monthly plan
+        let finalChoice = null;
+
+        // Get existing query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            const result = {};
+            for (let [key, value] of params) {
+                result[key] = value;
+            }
+            return result;
+        }
+
+        // Track clicks
+        function trackClick(elementInfo) {
+            const timeElapsed = ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+            const clickInfo = `${elementInfo}-${timeElapsed}`;
+            allClicks.push(clickInfo);
+            console.log('Click tracked:', clickInfo);
+        }
+
+        // Select plan
+        function selectPlan(planType, clickInfo) {
+            trackClick(clickInfo);
+            
+            // Remove selected class from all plans
+            document.querySelectorAll('.plan-option').forEach(option => {
+                option.classList.remove('selected');
+                option.querySelector('.plan-radio').checked = false;
+            });
+            
+            // Add selected class to clicked plan
+            const selectedOption = document.querySelector(`[data-plan="${planType}"]`);
+            selectedOption.classList.add('selected');
+            selectedOption.querySelector('.plan-radio').checked = true;
+            
+            selectedPlan = planType;
+            console.log('Plan selected:', planType);
+        }
+
+        // Redirect to Qualtrics with tracking data
+        function redirectToQualtrics(buttonInfo) {
+            trackClick(buttonInfo);
+            
+            const decisionTime = ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+            finalChoice = selectedPlan;
+            
+            // Get existing query parameters
+            const existingParams = getQueryParams();
+            
+            // Create new URL with tracking data
+            const qualtricsUrl = new URL('https://baylor.qualtrics.com/jfe/form/SV_0eU6urJp5CU5qMC');
+            
+            // Add existing parameters
+            Object.keys(existingParams).forEach(key => {
+                qualtricsUrl.searchParams.set(key, existingParams[key]);
+            });
+            
+            // Add tracking parameters
+            qualtricsUrl.searchParams.set('allClicks', allClicks.join('|'));
+            qualtricsUrl.searchParams.set('finalChoice', finalChoice);
+            qualtricsUrl.searchParams.set('decisionTime', decisionTime);
+            
+            console.log('Redirecting with data:', {
+                allClicks: allClicks,
+                finalChoice: finalChoice,
+                decisionTime: decisionTime
+            });
+            
+            // Redirect to Qualtrics
+            window.location.href = qualtricsUrl.toString();
+        }
+
+        // Toggle FAQ
+        function toggleFAQ(element, faqInfo) {
+            trackClick(faqInfo);
+            element.classList.toggle('open');
+        }
+
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, tracking initialized');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Costco - Membership Plans</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .header-top {
+            background-color: #0073e6;
+            color: white;
+            padding: 5px 0;
+            font-size: 12px;
+        }
+
+        .header-top-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e31837;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 40px 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-actions a {
+            color: #0073e6;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-bar {
+            background-color: #0073e6;
+            color: white;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .main-content {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 600px;
+            padding: 60px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .join-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .subtitle a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .membership-cards {
+            display: flex;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        .membership-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            width: 350px;
+            color: #333;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .membership-card.selected {
+            border-color: #000;
+            transform: scale(1.02);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .price-note {
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 25px;
+            transition: all 0.2s;
+            background: white;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .action-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .selected .action-btn {
+            background: #0073e6;
+            color: white;
+            border: 1px solid #0073e6;
+        }
+
+        .selected .action-btn:hover {
+            background: #0056b3;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .benefit-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .check-icon {
+            color: #22c55e;
+        }
+
+        .x-icon {
+            color: #ef4444;
+        }
+
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-message {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .popup-btn {
+            background: #0073e6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .popup-btn:hover {
+            background: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .membership-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .membership-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .join-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-top">
+        <div class="header-top-content">
+            <div class="header-links">
+                <a href="#" onclick="showPopup()">Costco Next</a>
+                <a href="#" onclick="showPopup()">While Supplies Last</a>
+                <a href="#" onclick="showPopup()">Online-Only</a>
+                <a href="#" onclick="showPopup()">Treasure Hunt</a>
+                <a href="#" onclick="showPopup()">What's New</a>
+                <a href="#" onclick="showPopup()">Member Favorites</a>
+                <a href="#" onclick="showPopup()">Get Email Offers</a>
+                <a href="#" onclick="showPopup()">Customer Service</a>
+                <a href="#" onclick="showPopup()">US</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="header-main">
+            <div class="logo" onclick="trackClick('Costco Logo', 'header')">COSTCO</div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search" onclick="trackClick('Search Input', 'header')">
+                <button class="search-btn" onclick="trackClick('Search Button', 'header')">🔍</button>
+            </div>
+            <div class="header-actions">
+                <a href="#" onclick="trackClick('Sign In Register', 'header')">Sign In / Register</a>
+                <a href="#" onclick="trackClick('Orders Returns', 'header')">Orders & Returns</a>
+                <a href="#" onclick="trackClick('Cart', 'header')">🛒 Cart</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-content">
+            <div class="nav-item" onclick="showPopup()">🛍️ Shop</div>
+            <div class="nav-item" onclick="showPopup()">Grocery</div>
+            <div class="nav-item" onclick="showPopup()">Savings</div>
+            <div class="nav-item" onclick="showPopup()">Optical</div>
+            <div class="nav-item" onclick="showPopup()">Pharmacy</div>
+            <div class="nav-item" onclick="showPopup()">Services</div>
+            <div class="nav-item" onclick="showPopup()">Photo</div>
+            <div class="nav-item" onclick="showPopup()">Travel</div>
+            <div class="nav-item" onclick="trackClick('Membership', 'navigation')">Membership</div>
+            <div class="nav-item" onclick="showPopup()">Locations</div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <span onclick="trackClick('Business', 'breadcrumb')">Business</span> > 
+        <span onclick="trackClick('Get Executive Membership', 'breadcrumb')">Get Executive Membership</span>
+    </div>
+
+    <div class="main-content">
+        <h1 class="join-title">Join Costco</h1>
+        <p class="subtitle">
+            Already a Costco member? <a href="#" onclick="trackClick('Renew your membership', 'subtitle')">Renew your membership</a>
+        </p>
+
+        <div class="membership-cards">
+            <div class="membership-card" id="executive-card" onclick="selectPlan('executive')">
+                <div class="card-header">
+                    <h2 class="card-title">Executive Membership</h2>
+                    <p class="card-subtitle">Best Value & Exclusive Benefits</p>
+                </div>
+                
+                <div class="price">$130/yr</div>
+                <p class="price-note">Plus applicable sales tax</p>
+                
+                <button class="action-btn" onclick="redirectToSurvey('Start Saving & Earning', 'Executive Membership $130')">
+                    Start Saving & Earning
+                </button>
+                
+                <ul class="benefits-list">
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span><strong>Annual 2% Reward</strong></span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span><strong>NEW!</strong> Executive Member Shopping Hours</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span><strong>NEW!</strong> $10 Monthly Credit on SameDay.Costco.com or Costco via Instacart¹</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>Additional Value on Costco Services</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>Shop Online and in Warehouses</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>Includes 2 Membership Cards</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>100% Satisfaction Guarantee</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="membership-card" id="gold-card" onclick="selectPlan('gold')">
+                <div class="card-header">
+                    <h2 class="card-title">Gold Star Membership</h2>
+                    <p class="card-subtitle">Everyday Value</p>
+                </div>
+                
+                <div class="price">$65/yr</div>
+                <p class="price-note">Plus applicable sales tax</p>
+                
+                <button class="action-btn" onclick="redirectToSurvey('Start Saving', 'Gold Star Membership $65')">
+                    Start Saving
+                </button>
+                
+                <ul class="benefits-list">
+                    <li class="benefit-item">
+                        <span class="benefit-icon x-icon">✗</span>
+                        <span>Annual 2% Reward</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon x-icon">✗</span>
+                        <span>Executive Member Shopping Hours</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon x-icon">✗</span>
+                        <span>$10 Monthly Credit on SameDay.Costco.com or Costco via Instacart¹</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon x-icon">✗</span>
+                        <span>Additional Value on Costco Services</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>Shop Online and in Warehouses</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>Includes 2 Membership Cards</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon check-icon">✓</span>
+                        <span>100% Satisfaction Guarantee</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize tracking variables
+        let pageLoadTime = Date.now();
+        let allClicks = [];
+        let selectedPlan = null;
+        let finalChoice = '';
+
+        // Get existing URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const existingParams = {};
+        for (let [key, value] of urlParams) {
+            existingParams[key] = value;
+        }
+
+        // Show popup function
+        function showPopup() {
+            const popupOverlay = document.createElement('div');
+            popupOverlay.className = 'popup-overlay';
+            
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            
+            const message = document.createElement('div');
+            message.className = 'popup-message';
+            message.textContent = 'This option is not clickable. Please choose a plan or other clickable element';
+            
+            const okButton = document.createElement('button');
+            okButton.className = 'popup-btn';
+            okButton.textContent = 'OK';
+            okButton.onclick = function() {
+                document.body.removeChild(popupOverlay);
+            };
+            
+            popup.appendChild(message);
+            popup.appendChild(okButton);
+            popupOverlay.appendChild(popup);
+            document.body.appendChild(popupOverlay);
+        }
+
+        // Track clicks function
+        function trackClick(elementText, context) {
+            const timeElapsed = ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+            const clickData = `${elementText.replace(/\s+/g, '')}_${context.replace(/\s+/g, '')}-${timeElapsed}`;
+            allClicks.push(clickData);
+            console.log('Click tracked:', clickData);
+        }
+
+        // Select plan function
+        function selectPlan(planType) {
+            // Remove previous selection
+            document.querySelectorAll('.membership-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selection to clicked card
+            const cardId = planType === 'executive' ? 'executive-card' : 'gold-card';
+            document.getElementById(cardId).classList.add('selected');
+            
+            selectedPlan = planType;
+            
+            // Track the click
+            const planName = planType === 'executive' ? 'Executive Membership $130' : 'Gold Star Membership $65';
+            trackClick(`Select_${planName.replace(/\s+/g, '')}`, 'membership_card');
+        }
+
+        // Redirect to survey function
+        function redirectToSurvey(buttonText, planInfo) {
+            event.stopPropagation(); // Prevent card selection when button is clicked
+            
+            const timeElapsed = ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+            
+            // Track the button click
+            trackClick(buttonText.replace(/\s+/g, ''), planInfo.replace(/\s+/g, ''));
+            
+            // Set final choice
+            finalChoice = `${buttonText.replace(/\s+/g, '')}_${planInfo.replace(/\s+/g, '')}`;
+            
+            // Calculate decision time
+            const decisionTime = parseFloat(timeElapsed);
+            
+            // Build redirect URL with parameters
+            const redirectURL = 'https://baylor.qualtrics.com/jfe/form/SV_0eU6urJp5CU5qMC';
+            const params = new URLSearchParams();
+            
+            // Add existing parameters
+            for (let [key, value] of Object.entries(existingParams)) {
+                params.append(key, value);
+            }
+            
+            // Add tracking parameters
+            params.append('allClicks', allClicks.join(','));
+            params.append('finalChoice', finalChoice);
+            params.append('decisionTime', decisionTime.toString());
+            
+            const finalURL = `${redirectURL}?${params.toString()}`;
+            
+            console.log('Redirecting to:', finalURL);
+            console.log('All clicks:', allClicks);
+            console.log('Final choice:', finalChoice);
+            console.log('Decision time:', decisionTime);
+            
+            // Redirect
+            window.location.href = finalURL;
+        }
+
+        // Add click tracking to all clickable elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track clicks on header actions
+            document.querySelectorAll('.header-actions a').forEach(link => {
+                link.addEventListener('click', function() {
+                    trackClick(this.textContent.trim(), 'header');
+                });
+            });
+        });
+
+        // Add hover effects for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.membership-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'scale(1.01)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
