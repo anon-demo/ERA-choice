@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peacock - Pick Your Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-signin {
+            background: transparent;
+            border: 1px solid #666;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-signin:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-getstarted {
+            background: #ffd700;
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-getstarted:hover {
+            background: #ffed4e;
+            transform: translateY(-1px);
+        }
+
+        .main-content {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .main-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            letter-spacing: -1px;
+        }
+
+        .plans-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            flex-wrap: wrap;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: black;
+            border-radius: 12px;
+            padding: 30px 25px;
+            width: 320px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .plan-card.premium {
+            border: 2px solid #ffd700;
+        }
+
+        .most-popular {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffd700;
+            color: black;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .plan-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .plan-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .features {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+		.feature {
+			display: flex;
+			align-items: center;
+			margin-bottom: 3px;
+			font-size: 14px;
+			min-height: 20px; /* force blank rows to take same space as text rows */
+		}
+
+		.feature::before {
+			content: '✓';
+			color: #00d4ff;
+			font-weight: bold;
+			margin-right: 10px;
+		}
+
+		.feature.no-check::before {
+			content: ''; /* no check for blank rows */
+		}
+
+
+        .pricing-section {
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+        }
+
+        .pricing-option {
+            background: #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 11px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .pricing-option:hover {
+            background: #e8e8e8;
+            border-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-left {
+            text-align: left;
+        }
+
+        .pricing-type {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .pricing-subtitle {
+            font-size: 8px;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        .pricing-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .price {
+            font-size: 13px;
+        }
+
+        .choose-btn {
+            background: #ffd700;
+            border: none;
+            color: black;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .choose-btn:hover {
+            background: #ffed4e;
+            transform: scale(1.05);
+        }
+
+        .choose-btn:active {
+            transform: scale(0.95);
+        }
+
+        .disclaimer {
+            font-size: 11px;
+            color: #666;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .supported-devices {
+            text-align: center;
+            margin: 40px 0 80px;
+        }
+
+        .supported-devices a {
+            color: white;
+            text-decoration: underline;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .supported-devices a:hover {
+            color: #ffd700;
+        }
+
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .faq-title {
+            font-size: 42px;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: -1px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #333;
+            margin-bottom: 0;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #ffd700;
+        }
+
+        .faq-arrow {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .plans-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main-title {
+                font-size: 32px;
+            }
+
+            .faq-title {
+                font-size: 32px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">peacock</div>
+        <div class="header-buttons">
+            <button class="btn-signin" onclick="trackClick(this, 'SIGN_IN')">SIGN IN</button>
+            <button class="btn-getstarted" onclick="trackClick(this, 'GET_STARTED')">GET STARTED</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="main-title">Pick Your Plan. Cancel Anytime.</h1>
+        
+        <div class="plans-container">
+            <!-- Select Plan -->
+            <div class="plan-card">
+                <h2 class="plan-title">Select</h2>
+                <p class="plan-subtitle">Watch TV, with ads.</p>
+                
+                <div class="features">
+				  <div class="feature">TV Favorites from NBC, Bravo, & More*</div>
+				  <div class="feature no-check"></div>
+				  <div class="feature no-check"></div>
+				  <div class="feature no-check"></div>
+				</div>
+
+                <div class="pricing-section">
+                    <div class="pricing-option" onclick="redirectToSurvey('CHOOSE_Select_Monthly_$7.99')">
+                        <div class="pricing-left">
+                            <div class="pricing-type">MONTHLY</div>
+                        </div>
+                        <div class="pricing-right">
+                            <div class="price">$7.99/mo</div>
+                            <button class="choose-btn">CHOOSE</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-option" onclick="redirectToSurvey('CHOOSE_Select_Annual_$79.99')">
+                        <div class="pricing-left">
+                            <div class="pricing-type">ANNUAL</div>
+                            <div class="pricing-subtitle">Get 12 months for the Price of 10</div>
+                        </div>
+                        <div class="pricing-right">
+                            <div class="price">$79.99/yr</div>
+                            <button class="choose-btn">CHOOSE</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="disclaimer">*Peacock Originals excluded.</div>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="plan-card premium">
+                <div class="most-popular">MOST POPULAR</div>
+                <h2 class="plan-title">Premium</h2>
+                <p class="plan-subtitle">Watch TV, movies, & more, with ads.</p>
+                
+                <div class="features">
+                    <div class="feature">TV Favorites from NBC, Bravo, & More</div>
+                    <div class="feature">LIVE Sports & Events</div>
+                    <div class="feature">Hit Films & Peacock Originals</div>
+					<div class="feature no-check"></div>
+
+                </div>
+
+                <div class="pricing-section">
+                    <div class="pricing-option" onclick="redirectToSurvey('CHOOSE_Premium_Monthly_$10.99')">
+                        <div class="pricing-left">
+                            <div class="pricing-type">MONTHLY</div>
+                        </div>
+                        <div class="pricing-right">
+                            <div class="price">$10.99/mo</div>
+                            <button class="choose-btn">CHOOSE</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-option" onclick="redirectToSurvey('CHOOSE_Premium_Annual_$109.99')">
+                        <div class="pricing-left">
+                            <div class="pricing-type">ANNUAL</div>
+                            <div class="pricing-subtitle">Get 12 Months for the Price of 10</div>
+                        </div>
+                        <div class="pricing-right">
+                            <div class="price">$109.99/yr</div>
+                            <button class="choose-btn">CHOOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Plus Plan -->
+            <div class="plan-card">
+                <h2 class="plan-title">Premium Plus</h2>
+                <p class="plan-subtitle">Watch TV, movies, & more, no ads.*</p>
+                
+                <div class="features">
+                    <div class="feature">TV Favorites from NBC, Bravo, & More</div>
+                    <div class="feature">LIVE Sports & Events</div>
+                    <div class="feature">Hit Films & Peacock Originals</div>
+                    <div class="feature">Download & Watch Offline*</div>
+                </div>
+
+                <div class="pricing-section">
+                    <div class="pricing-option" onclick="redirectToSurvey('CHOOSE_PremiumPlus_Monthly_$16.99')">
+                        <div class="pricing-left">
+                            <div class="pricing-type">MONTHLY</div>
+                        </div>
+                        <div class="pricing-right">
+                            <div class="price">$16.99/mo</div>
+                            <button class="choose-btn">CHOOSE</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-option" onclick="redirectToSurvey('CHOOSE_PremiumPlus_Annual_$169.99')">
+                        <div class="pricing-left">
+                            <div class="pricing-type">ANNUAL</div>
+                            <div class="pricing-subtitle">Get 12 Months for the Price of 10</div>
+                        </div>
+                        <div class="pricing-right">
+                            <div class="price">$169.99/yr</div>
+                            <button class="choose-btn">CHOOSE</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="disclaimer">*Due to streaming rights, a small amount of programming will still contain ads (Peacock channels, sports and events, and a few shows and movies). Some titles available to watch offline.</div>
+            </div>
+        </div>
+
+        <div class="supported-devices">
+            <a href="#" onclick="trackClick(this, 'View_list_of_supported_devices')">View list of supported devices</a>
+        </div>
+    </main>
+
+    <section class="faq-section">
+        <h2 class="faq-title">Questions? We've Got You Covered.</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What's Peacock?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Peacock is NBCUniversal's streaming service featuring thousands of hours of premium content including current and classic TV series, blockbuster movies, and Peacock Originals. Stream live sports, breaking news, and can't-miss events.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What can I watch with Peacock Premium vs. Peacock Premium Plus?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Peacock Premium includes ads and gives you access to thousands of hours of content. Peacock Premium Plus has limited ads and includes the ability to download select content to watch offline, plus access to your local NBC station live 24/7.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What devices does Peacock support?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Peacock is available on a wide variety of devices including smart TVs, streaming devices, gaming consoles, mobile devices, and web browsers. This includes Apple TV, Roku, Amazon Fire TV, Chromecast, Xbox, PlayStation, iOS, Android, and more.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Does Peacock have a discount for students?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes! Eligible students can get Peacock Premium for $1.99/mo. You'll need to verify your student status through SheerID to qualify for this discount.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Where can I get a Peacock Gift Card?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Peacock Gift Cards are available at major retailers including Target, Best Buy, CVS, Walgreens, and online. You can also purchase them directly from the Peacock website.
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Tracking variables
+        let pageLoadTime = Date.now();
+        let allClicks = [];
+        let finalChoice = '';
+        let decisionTime = 0;
+
+        // Get existing query parameters
+        function getExistingParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            for (const [key, value] of urlParams) {
+                params[key] = value;
+            }
+            return params;
+        }
+
+        // Track clicks
+        function trackClick(element, contextInfo) {
+            const clickTime = ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+            const clickData = `${contextInfo}-${clickTime}`;
+            allClicks.push(clickData);
+            
+            // Add visual feedback
+            element.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 150);
+        }
+
+        // Redirect to survey with tracking data
+        function redirectToSurvey(choice) {
+            finalChoice = choice;
+            decisionTime = ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+            
+            // Get existing parameters
+            const existingParams = getExistingParams();
+            
+            // Create new URL with all parameters
+            const baseUrl = 'https://baylor.qualtrics.com/jfe/form/SV_0eU6urJp5CU5qMC';
+            const params = new URLSearchParams(existingParams);
+            
+            // Add tracking parameters
+            params.set('allClicks', allClicks.join(','));
+            params.set('finalChoice', finalChoice);
+            params.set('decisionTime', decisionTime);
+            
+            // Redirect
+            window.location.href = `${baseUrl}?${params.toString()}`;
+        }
+
+        // FAQ toggle functionality
+        function toggleFAQ(questionElement) {
+            const faqItem = questionElement.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't already active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+            
+            // Track the click
+            const questionText = questionElement.querySelector('span').textContent.replace(/[^a-zA-Z0-9]/g, '_');
+            trackClick(questionElement, `FAQ_${questionText}`);
+        }
+
+        // Add click tracking to all interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track clicks on all buttons and links
+            document.querySelectorAll('button, a').forEach(element => {
+                if (!element.onclick) {
+                    element.addEventListener('click', function(e) {
+                        let contextInfo = this.textContent.replace(/[^a-zA-Z0-9]/g, '_');
+                        trackClick(this, contextInfo);
+                    });
+                }
+            });
+        });
+
+        // Add hover effects to pricing options
+        document.addEventListener('DOMContentLoaded', function() {
+            const pricingOptions = document.querySelectorAll('.pricing-option');
+            pricingOptions.forEach(option => {
+                option.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 6px 20px rgba(255, 215, 0, 0.3)';
+                });
+                option.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
