@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital One Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #c0c0c0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #0066cc;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #0066cc;
+            cursor: pointer;
+            padding: 5px;
+            display: none;
+        }
+
+        .back-btn:hover {
+            opacity: 0.7;
+        }
+
+        .container {
+            background: white;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .money-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00A651, #007A3D);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .money-icon::before {
+            content: '$';
+            position: absolute;
+            left: 18px;
+            top: 12px;
+            font-size: 16px;
+        }
+
+        .money-icon::after {
+            content: '$';
+            position: absolute;
+            right: 18px;
+            bottom: 12px;
+            font-size: 16px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .payment-option {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .option-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            background: #f8f8f8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-button:hover {
+            border-color: #ccc;
+        }
+
+        .option-button.selected {
+            border-color: #0066cc;
+            background: #f0f7ff;
+        }
+
+        .option-button.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #0066cc;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .other-amount-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            background: white;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .other-amount-input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        .amount-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .amount-detail {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .info-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+
+        .info-link:hover {
+            text-decoration: underline;
+        }
+
+        .info-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #0066cc;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ccc;
+            color: white;
+        }
+
+        .continue-btn.active {
+            background: #0066cc;
+        }
+
+        .continue-btn.active:hover {
+            background: #0052a3;
+        }
+
+        .continue-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .minimum-payment-options {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .minimum-payment-options.show {
+            display: block;
+        }
+
+        .interest-message {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .minimum-options-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .minimum-option {
+            flex: 1;
+        }
+
+        .minimum-option-button {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #0066cc;
+            border-radius: 4px;
+            background: #0066cc;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .minimum-option-button:hover {
+            background: #0052a3;
+            border-color: #0052a3;
+        }
+
+        .minimum-option-button.selected {
+            background: #004080;
+            border-color: #004080;
+        }
+
+        .minimum-option-button.selected::after {
+            content: ' ✓';
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Info Screen Styles */
+        .info-screen {
+            display: none;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .info-screen.show {
+            display: block;
+        }
+
+        .info-title-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .info-back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #0066cc;
+            cursor: pointer;
+            padding: 5px 10px 5px 0;
+            margin-right: 10px;
+        }
+
+        .info-back-btn:hover {
+            opacity: 0.7;
+        }
+
+        .info-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .info-section-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+	<div class="header">
+		<button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+		
+		<!-- Replace SVG with PNG logo -->
+		<img src="capitalonelogo.png" alt="Capital One Logo" class="logo">
+		
+		<button class="close-btn" onclick="handleClose()">×</button>
+	</div>
+    <div class="container" id="mainContainer">
+        <div class="money-icon">$</div>
+        
+        <h1 class="title">How much do you want to pay?</h1>
+        <p class="subtitle">Quicksilver ...2029</p>
+
+        <div class="payment-option">
+            <div class="option-label">Other Amount</div>
+            <input 
+                type="text" 
+                class="other-amount-input" 
+                placeholder="$0.00" 
+                id="otherAmount"
+                onclick="selectOption('other')"
+                oninput="handleOtherAmountInput()"
+            >
+        </div>
+
+        <div class="payment-option">
+            <button class="option-button" id="statementBalance" onclick="selectOption('statement')">
+                <div>
+                    <div class="amount-text">$425</div>
+                </div>
+                <div>
+                    <div class="amount-detail">Pay Full Balance</div>
+                    <div class="amount-detail">(today)</div>
+                </div>
+            </button>
+        </div>
+
+        <div class="payment-option">
+            <button class="option-button" id="minimumPayment" onclick="selectOption('minimum')">
+                <div>
+                    <div class="amount-text">$25</div>
+                </div>
+                <div>
+                    <div class="amount-detail">Minimum Payment</div>
+                </div>
+            </button>
+            
+            <div class="minimum-payment-options" id="minimumPaymentOptions">
+                <div class="interest-message">
+                    Want to avoid paying more in interest later? Paying more now can help.
+                </div>
+                <div class="minimum-options-container">
+                    <div class="minimum-option">
+                        <button class="minimum-option-button" onclick="selectMinimumOption('keep')">
+                            Keep minimum
+                        </button>
+                    </div>
+                    <div class="minimum-option">
+                        <button class="minimum-option-button" onclick="selectMinimumOption('add30')">
+                            Add $30
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="info-link" onclick="handleInfoClick(event)">
+            <span class="info-icon">i</span>
+            About payment options
+        </a>
+
+        <button class="continue-btn" id="continueBtn" onclick="handleContinue()" disabled>
+            Continue
+        </button>
+    </div>
+
+    <div class="info-screen" id="infoScreen">
+        <div class="info-title-container">
+            <button class="info-back-btn" onclick="goBack()">← Back</button>
+            <h1 class="info-title">Amount Options</h1>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-section-title">Other Amount</div>
+            <div class="info-section-content">You choose the amount you want to pay.</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-section-title">Last Statement Balance</div>
+            <div class="info-section-content">The last statement balance does not include payments or credits received since your most recent billing statement. Pay your statement balance every month by the due date to help reduce or avoid paying interest.</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-section-title">Current Balance</div>
+            <div class="info-section-content">Current Balance is the total of all posted charges, interest, credits and payments on your account. Choose this option to pay off everything that's currently posted to your account. Current Balance doesn't include scheduled payments or any pending activity like pending transactions, fees or interest charges.</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-section-title">Last Posted Payment</div>
+            <div class="info-section-content">The last posted payment.</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-section-title">Minimum Payment</div>
+            <div class="info-section-content">Pay this by your due date to avoid late fees. If you can pay a little more, you can save money on interest by reducing your balance faster.</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-section-title">Minimum Payment Intercept</div>
+            <div class="info-section-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize tracking variables
+        let allClicks = [];
+        let finalChoice = '';
+        let pageLoadTime = Date.now();
+        let selectedOption = null;
+        let minimumSubOption = null;
+
+        // Get existing query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const existingParams = Object.fromEntries(urlParams.entries());
+
+        function getTimestamp() {
+            return ((Date.now() - pageLoadTime) / 1000).toFixed(2);
+        }
+
+        function trackClick(elementText, context = '') {
+            const timestamp = getTimestamp();
+            const clickData = context ? `${elementText}_${context}-${timestamp}` : `${elementText}-${timestamp}`;
+            allClicks.push(clickData);
+        }
+
+        function selectOption(option) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('otherAmount').style.borderColor = '#e0e0e0';
+            document.getElementById('otherAmount').style.background = 'white';
+
+            // Hide minimum payment options
+            document.getElementById('minimumPaymentOptions').classList.remove('show');
+            minimumSubOption = null;
+
+            selectedOption = option;
+            const continueBtn = document.getElementById('continueBtn');
+
+            if (option === 'other') {
+                const input = document.getElementById('otherAmount');
+                input.style.borderColor = '#0066cc';
+                input.style.background = '#f0f7ff';
+                input.focus();
+                
+                // Check if input has value
+                if (input.value && input.value !== '$0.00' && input.value !== '') {
+                    continueBtn.classList.add('active');
+                    continueBtn.disabled = false;
+                    trackClick('OtherAmount', `${input.value}`);
+                }
+            } else if (option === 'statement') {
+                document.getElementById('statementBalance').classList.add('selected');
+                continueBtn.classList.add('active');
+                continueBtn.disabled = false;
+                trackClick('LastStatementBalance', '$7176.42');
+            } else if (option === 'minimum') {
+                document.getElementById('minimumPayment').classList.add('selected');
+                // Show minimum payment options instead of enabling continue button
+                document.getElementById('minimumPaymentOptions').classList.add('show');
+                continueBtn.classList.remove('active');
+                continueBtn.disabled = true;
+                trackClick('MinimumPayment', '$71.00');
+            }
+        }
+
+        function selectMinimumOption(subOption) {
+            // Remove selected class from all minimum option buttons
+            document.querySelectorAll('.minimum-option-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            minimumSubOption = subOption;
+            const continueBtn = document.getElementById('continueBtn');
+
+            if (subOption === 'keep') {
+                document.querySelector('.minimum-option-button[onclick="selectMinimumOption(\'keep\')"]').classList.add('selected');
+                trackClick('KeepMinimum', '$71.00');
+            } else if (subOption === 'add30') {
+                document.querySelector('.minimum-option-button[onclick="selectMinimumOption(\'add30\')"]').classList.add('selected');
+                trackClick('AddThirty', '$101.00');
+            }
+
+            // Enable continue button
+            continueBtn.classList.add('active');
+            continueBtn.disabled = false;
+        }
+
+        function handleOtherAmountInput() {
+            const input = document.getElementById('otherAmount');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            // Format input as currency
+            let value = input.value.replace(/[^\d.]/g, '');
+            if (value && !isNaN(value) && parseFloat(value) > 0) {
+                continueBtn.classList.add('active');
+                continueBtn.disabled = false;
+                selectedOption = 'other';
+                
+                // Add visual selection state
+                input.style.borderColor = '#0066cc';
+                input.style.background = '#f0f7ff';
+                
+                // Remove selection from other options
+                document.querySelectorAll('.option-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // Hide minimum payment options
+                document.getElementById('minimumPaymentOptions').classList.remove('show');
+            } else {
+                continueBtn.classList.remove('active');
+                continueBtn.disabled = true;
+                input.style.borderColor = '#e0e0e0';
+                input.style.background = 'white';
+            }
+        }
+
+        function handleInfoClick(event) {
+            event.preventDefault();
+            trackClick('AboutPaymentOptions', 'InfoLink');
+            showInfoScreen();
+        }
+
+        function showInfoScreen() {
+            document.getElementById('mainContainer').style.display = 'none';
+            document.getElementById('infoScreen').classList.add('show');
+            document.getElementById('backBtn').style.display = 'block';
+        }
+
+        function goBack() {
+            trackClick('Back', 'BackArrow');
+            document.getElementById('infoScreen').classList.remove('show');
+            document.getElementById('mainContainer').style.display = 'block';
+            document.getElementById('backBtn').style.display = 'none';
+        }
+
+        function handleClose() {
+            trackClick('Close', 'TopRightX');
+            redirect();
+        }
+
+        function handleContinue() {
+            if (!selectedOption) return;
+
+            let choiceLabel = '';
+            if (selectedOption === 'other') {
+                const amount = document.getElementById('otherAmount').value;
+                choiceLabel = `OtherAmount_${amount}`;
+            } else if (selectedOption === 'statement') {
+                choiceLabel = 'LastStatementBalance_$7176.42';
+            } else if (selectedOption === 'minimum') {
+                if (minimumSubOption === 'keep') {
+                    choiceLabel = 'MinimumPayment_Keep_$71.00';
+                } else if (minimumSubOption === 'add30') {
+                    choiceLabel = 'MinimumPayment_Add30_$101.00';
+                }
+            }
+
+            finalChoice = choiceLabel;
+            trackClick('Continue', choiceLabel);
+            redirect();
+        }
+
+        function redirect() {
+            const decisionTime = getTimestamp();
+            
+            // Build query parameters
+            const params = new URLSearchParams(existingParams);
+            params.set('allClicks', allClicks.join(','));
+            params.set('finalChoice', finalChoice);
+            params.set('decisionTime', decisionTime);
+
+            const redirectURL = `https://baylor.qualtrics.com/jfe/form/SV_0eU6urJp5CU5qMC?${params.toString()}`;
+            window.location.href = redirectURL;
+        }
+
+        // Add click tracking to all clickable elements
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            
+            // Skip if already handled by specific handlers
+            if (target.id === 'continueBtn' || target.classList.contains('close-btn') || 
+                target.classList.contains('info-link') || target.classList.contains('option-button') ||
+                target.id === 'otherAmount' || target.classList.contains('minimum-option-button') ||
+                target.id === 'backBtn' || target.classList.contains('info-back-btn')) {
+                return;
+            }
+
+            // Track other clicks
+            const text = target.textContent || target.alt || target.id || 'UnknownElement';
+            trackClick(text, 'GeneralClick');
+        });
+
+        // Format currency input
+        document.getElementById('otherAmount').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                // Add dollar sign if not present
+                if (!value.startsWith('$')) {
+                    e.target.value = '$' + value;
+                }
+            }
+        });
+
+        // Handle enter key in other amount input
+        document.getElementById('otherAmount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('continueBtn').disabled) {
+                handleContinue();
+            }
+        });
+    </script>
+</body>
+</html>
