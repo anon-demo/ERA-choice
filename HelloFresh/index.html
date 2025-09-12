@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Kit Delivery Plans & Food</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .promo-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .promo-text {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .promo-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .promo-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .unlock-btn {
+            background-color: #90EE90;
+            color: #2c3e50;
+        }
+
+        .unlock-btn:hover {
+            background-color: #7FDD7F;
+            transform: translateY(-1px);
+        }
+
+        .code-btn {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .code-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .disclaimer {
+            font-size: 10px;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 200px;
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: #2c3e50;
+        }
+
+        .plan-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .preference-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preference-card:hover {
+            border-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .preference-card.selected {
+            border-color: #27ae60;
+            background-color: #f8fff8;
+        }
+
+        .preference-card .checkmark {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .preference-card.selected .checkmark {
+            display: flex;
+        }
+
+        .preference-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .preference-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .swap-note {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .plan-customizer {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .selector-group {
+            margin-bottom: 25px;
+        }
+
+        .selector-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .number-selector, .meals-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .selector-btn {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .selector-btn:hover {
+            border-color: #27ae60;
+        }
+
+        .selector-btn.selected {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .plan-details {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .plan-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .most-popular {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .plan-info {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .pricing {
+            margin-top: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 0;
+        }
+
+        .price-row.total {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .price {
+            font-weight: 600;
+        }
+
+        .select-plan-btn {
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 30px;
+        }
+
+        .select-plan-btn:hover {
+            background-color: #219a52;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        .feedback-btn {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 4px 4px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .plan-sections {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .preferences-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .disclaimer {
+                position: static;
+                transform: none;
+                margin-top: 10px;
+                max-width: none;
+            }
+            
+            .promo-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="promo-banner">
+        <div class="promo-content">
+            <div class="promo-text">First Box Ships Free + Free Apps for Life*</div>
+        </div>
+        <div class="disclaimer">
+            *New subscribers only, and varies by plan. Additional charges apply for premium add-ons. Pause or cancel anytime.
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="main-title">Personalize your plan</h1>
+        
+        <div class="plan-sections">
+            <div class="preferences-section">
+                <h2 class="section-title">1. Choose your preferences</h2>
+                <p class="section-description">
+                    Your preferences help us show you the most relevant recipes first. You'll still have access to all recipes each week!
+                </p>
+                
+                <div class="preferences-grid">
+                    <div class="preference-card selected" data-preference="meat-veggies">
+                        <div class="checkmark">✓</div>
+                        <div class="preference-icon">🥩</div>
+                        <div class="preference-title">Meat & Veggies</div>
+                    </div>
+                    <div class="preference-card" data-preference="veggie">
+                        <div class="checkmark">✓</div>
+                        <div class="preference-icon">🥬</div>
+                        <div class="preference-title">Veggie</div>
+                    </div>
+                    <div class="preference-card" data-preference="family-friendly">
+                        <div class="checkmark">✓</div>
+                        <div class="preference-icon">👨‍👩‍👧‍👦</div>
+                        <div class="preference-title">Family Friendly</div>
+                    </div>
+                    <div class="preference-card" data-preference="fit-wholesome">
+                        <div class="checkmark">✓</div>
+                        <div class="preference-icon">💪</div>
+                        <div class="preference-title">Fit & Wholesome</div>
+                    </div>
+                    <div class="preference-card" data-preference="under-20">
+                        <div class="checkmark">✓</div>
+                        <div class="preference-icon">⏱️</div>
+                        <div class="preference-title">Under 20 Minutes</div>
+                    </div>
+                    <div class="preference-card" data-preference="pescatarian">
+                        <div class="checkmark">✓</div>
+                        <div class="preference-icon">🐟</div>
+                        <div class="preference-title">Pescatarian</div>
+                    </div>
+                </div>
+                
+                <p class="swap-note">
+                    You'll be able to swap proteins and sides if they aren't a perfect match.
+                </p>
+            </div>
+
+            <div class="customizer-section">
+                <h2 class="section-title">2. Customize your plan size</h2>
+                
+                <div class="plan-customizer">
+                    <div class="selector-group">
+                        <label class="selector-label">Number of people</label>
+                        <div class="number-selector">
+                            <button class="selector-btn selected" data-people="2">2</button>
+                            <button class="selector-btn" data-people="4">4</button>
+                        </div>
+                    </div>
+
+                    <div class="selector-group">
+                        <label class="selector-label">Meals per week</label>
+                        <div class="meals-selector">
+                            <button class="selector-btn" data-meals="2">2</button>
+                            <button class="selector-btn selected" data-meals="3">3</button>
+                            <button class="selector-btn" data-meals="4">4</button>
+                            <button class="selector-btn" data-meals="5">5</button>
+                            <button class="selector-btn" data-meals="6">6</button>
+                        </div>
+                    </div>
+
+                    <div class="plan-details">
+                        <div class="plan-type">
+                            <strong id="selected-plan-type">Meat & Veggies</strong>
+                            <span class="most-popular">❤️ Most Popular</span>
+                        </div>
+                        <div class="plan-info" id="plan-summary">3 meals for 2 people per week</div>
+                        <div class="plan-info" id="total-servings">6 total servings</div>
+                        
+                        <div class="pricing">
+                            <div class="price-row">
+                                <span>Box price</span>
+                                <span class="price" id="box-price">$59.94</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Price per serving</span>
+                                <span class="price" id="price-per-serving">$9.99</span>
+                            </div>
+                            <div class="price-row total">
+                                <span>First box total</span>
+                                <span class="price" id="first-box-total">$70.93</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="select-plan-btn" onclick="selectPlan()">Select this plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="feedback-btn" onclick="showFeedback()">Feedback</button>
+
+    <script>
+        // State management
+        let selectedPreferences = new Set(['meat-veggies']);
+        let selectedPeople = 2;
+        let selectedMeals = 3;
+
+        // Pricing data
+        const pricingData = {
+            2: { // 2 people
+                2: { box: 39.96, perServing: 9.99 },
+                3: { box: 59.94, perServing: 9.99 },
+                4: { box: 79.92, perServing: 9.99 },
+                5: { box: 99.90, perServing: 9.99 },
+                6: { box: 119.88, perServing: 9.99 }
+            },
+            4: { // 4 people
+                2: { box: 79.92, perServing: 9.99 },
+                3: { box: 119.88, perServing: 9.99 },
+                4: { box: 159.84, perServing: 9.99 },
+                5: { box: 199.80, perServing: 9.99 },
+                6: { box: 239.76, perServing: 9.99 }
+            }
+        };
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePreferences();
+            initializePlanSelectors();
+            updatePlanDisplay();
+        });
+
+        function initializePreferences() {
+            const preferenceCards = document.querySelectorAll('.preference-card');
+            preferenceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const preference = this.dataset.preference;
+                    togglePreference(preference, this);
+                });
+            });
+        }
+
+        function togglePreference(preference, cardElement) {
+            if (selectedPreferences.has(preference)) {
+                selectedPreferences.delete(preference);
+                cardElement.classList.remove('selected');
+            } else {
+                selectedPreferences.add(preference);
+                cardElement.classList.add('selected');
+            }
+            updateSelectedPlanType();
+        }
+
+        function initializePlanSelectors() {
+            // People selector
+            const peopleButtons = document.querySelectorAll('[data-people]');
+            peopleButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectedPeople = parseInt(this.dataset.people);
+                    updateSelectorButtons(peopleButtons, this);
+                    updatePlanDisplay();
+                });
+            });
+
+            // Meals selector
+            const mealsButtons = document.querySelectorAll('[data-meals]');
+            mealsButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectedMeals = parseInt(this.dataset.meals);
+                    updateSelectorButtons(mealsButtons, this);
+                    updatePlanDisplay();
+                });
+            });
+        }
+
+        function updateSelectorButtons(buttons, selectedButton) {
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            selectedButton.classList.add('selected');
+        }
+
+        function updateSelectedPlanType() {
+            const planTypeElement = document.getElementById('selected-plan-type');
+            const mostPopularElement = document.querySelector('.most-popular');
+            
+            // Mapping of preference keys to display names
+            const preferenceNames = {
+                'meat-veggies': 'Meat & Veggies',
+                'veggie': 'Veggie',
+                'family-friendly': 'Family Friendly',
+                'fit-wholesome': 'Fit & Wholesome',
+                'under-20': 'Under 20 Minutes',
+                'pescatarian': 'Pescatarian'
+            };
+            
+            // Get all selected preference names
+            const selectedNames = Array.from(selectedPreferences)
+                .map(pref => preferenceNames[pref])
+                .filter(name => name); // Remove any undefined values
+            
+            // Display the preferences
+            if (selectedNames.length > 0) {
+                planTypeElement.textContent = selectedNames.join(' and ');
+            } else {
+                planTypeElement.textContent = 'Custom Plan';
+            }
+            
+            // Show "Most Popular" only if only "meat-veggies" is selected
+            if (selectedPreferences.size === 1 && selectedPreferences.has('meat-veggies')) {
+                mostPopularElement.style.display = 'inline-block';
+            } else {
+                mostPopularElement.style.display = 'none';
+            }
+        }
+
+        function updatePlanDisplay() {
+            const totalServings = selectedPeople * selectedMeals;
+            const pricing = pricingData[selectedPeople][selectedMeals];
+            const shippingFee = 10.99;
+            const firstBoxTotal = pricing.box + shippingFee;
+
+            // Update plan summary
+            document.getElementById('plan-summary').textContent = 
+                `${selectedMeals} meals for ${selectedPeople} people per week`;
+            document.getElementById('total-servings').textContent = 
+                `${totalServings} total servings`;
+
+            // Update pricing
+            document.getElementById('box-price').textContent = `$${pricing.box.toFixed(2)}`;
+            document.getElementById('price-per-serving').textContent = `$${pricing.perServing.toFixed(2)}`;
+            document.getElementById('first-box-total').textContent = `$${firstBoxTotal.toFixed(2)}`;
+
+            updateSelectedPlanType();
+        }
+
+        // Button actions
+        function unlockOffer() {
+            alert('🎉 Offer unlocked! Redirecting to checkout...');
+            // In a real app, this would redirect to the checkout page
+        }
+
+        function showCodeModal() {
+            const code = prompt('Enter your promo code:');
+            if (code) {
+                alert(`Promo code "${code}" applied! 🎉`);
+            }
+        }
+
+        function selectPlan() {
+            const planType = document.getElementById('selected-plan-type').textContent;
+            const summary = document.getElementById('plan-summary').textContent;
+            const total = document.getElementById('first-box-total').textContent;
+            
+            alert(`🍽️ Plan Selected!\n\nPlan: ${planType}\nDetails: ${summary}\nTotal: ${total}\n\nRedirecting to checkout...`);
+            
+            // Add a nice animation effect
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function showFeedback() {
+            const feedback = prompt('We value your feedback! How can we improve this experience?');
+            if (feedback) {
+                alert('Thank you for your feedback! We appreciate your input. 🙏');
+            }
+        }
+
+        // Add some nice hover effects and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s ease-out;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Add CSS animation for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
