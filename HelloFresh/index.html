@@ -451,6 +451,36 @@
     <button class="feedback-btn" onclick="showFeedback()">Feedback</button>
 
     <script>
+        // Tracking variables
+        let pageStartTime = Date.now();
+        let allClicks = [];
+        let finalChoice = null;
+        
+        // Helper function to get time elapsed since page load
+        function getElapsedTime() {
+            return ((Date.now() - pageStartTime) / 1000).toFixed(2);
+        }
+        
+        // Helper function to record clicks with timing
+        function recordClick(type, value) {
+            const clickData = {
+                type: type,
+                value: value,
+                time: getElapsedTime()
+            };
+            allClicks.push(clickData);
+        }
+        
+        // Helper function to get current URL parameters
+        function getCurrentUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            for (const [key, value] of urlParams) {
+                params[key] = value;
+            }
+            return params;
+        }
+
         // State management
         let selectedPreferences = new Set(['meat-veggies']);
         let selectedPeople = 2;
@@ -486,6 +516,7 @@
             preferenceCards.forEach(card => {
                 card.addEventListener('click', function() {
                     const preference = this.dataset.preference;
+                    recordClick('preference', preference);
                     togglePreference(preference, this);
                 });
             });
@@ -507,7 +538,9 @@
             const peopleButtons = document.querySelectorAll('[data-people]');
             peopleButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    selectedPeople = parseInt(this.dataset.people);
+                    const peopleCount = parseInt(this.dataset.people);
+                    recordClick('people', peopleCount);
+                    selectedPeople = peopleCount;
                     updateSelectorButtons(peopleButtons, this);
                     updatePlanDisplay();
                 });
@@ -517,7 +550,9 @@
             const mealsButtons = document.querySelectorAll('[data-meals]');
             mealsButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    selectedMeals = parseInt(this.dataset.meals);
+                    const mealsCount = parseInt(this.dataset.meals);
+                    recordClick('meals', mealsCount);
+                    selectedMeals = mealsCount;
                     updateSelectorButtons(mealsButtons, this);
                     updatePlanDisplay();
                 });
@@ -597,18 +632,46 @@
         }
 
         function selectPlan() {
+            // Record the final selection with timing
+            const selectionTime = getElapsedTime();
             const planType = document.getElementById('selected-plan-type').textContent;
             const summary = document.getElementById('plan-summary').textContent;
             const total = document.getElementById('first-box-total').textContent;
             
-            alert(`🍽️ Plan Selected!\n\nPlan: ${planType}\nDetails: ${summary}\nTotal: ${total}\n\nRedirecting to checkout...`);
+            finalChoice = {
+                planType: planType,
+                summary: summary,
+                total: total,
+                people: selectedPeople,
+                meals: selectedMeals,
+                preferences: Array.from(selectedPreferences),
+                time: selectionTime
+            };
             
-            // Add a nice animation effect
+            // Get existing URL parameters
+            const existingParams = getCurrentUrlParams();
+            
+            // Create new URL with all parameters
+            const qualtricsUrl = new URL('https://baylor.qualtrics.com/jfe/form/SV_0eU6urJp5CU5qMC');
+            
+            // Add existing parameters
+            Object.keys(existingParams).forEach(key => {
+                qualtricsUrl.searchParams.set(key, existingParams[key]);
+            });
+            
+            // Add tracking parameters
+            qualtricsUrl.searchParams.set('decisionTime', selectionTime);
+            qualtricsUrl.searchParams.set('finalChoice', JSON.stringify(finalChoice));
+            qualtricsUrl.searchParams.set('allClicks', JSON.stringify(allClicks));
+            
+            // Add a nice animation effect before redirect
             const button = event.target;
             button.style.transform = 'scale(0.95)';
+            button.textContent = 'Redirecting...';
+            
             setTimeout(() => {
-                button.style.transform = 'scale(1)';
-            }, 150);
+                window.location.href = qualtricsUrl.toString();
+            }, 500);
         }
 
         function showFeedback() {
