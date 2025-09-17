@@ -675,6 +675,10 @@
             trackClick(text, 'GeneralClick');
         });
 
+        window.addEventListener('load', function() {
+            selectOption('statement');
+        });
+
         // Format currency input
         document.getElementById('otherAmount').addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^\d.]/g, '');
