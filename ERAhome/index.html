@@ -683,7 +683,7 @@
                 <div class="example-card" onclick="window.open('https://anon-demo.github.io/ERA-choice/Amazon-USBchoice')">
                     <img class="example-preview" src="AmazonUSBimage.png" alt="AmazonUSB Example Preview">
                     <div class="example-content">
-                        <h3>Amazon product choice (USB drives)</h3>
+                        <h3>Amazon product choice</h3>
                         <p>Consumer choice between USB drives with realistic Amazon interface</p>
                     </div>
                 </div>
@@ -828,7 +828,7 @@
             <h2 style="margin-bottom:1.5rem;">Share Your Example</h2>
             <form id="shareExampleForm">
                 <div class="form-group">
-                    <label for="exampleUpload">Upload Screenshot or File:</label>
+                    <label for="exampleUpload">Upload webpage file (or folder if multiple files):</label>
                     <input type="file" id="exampleUpload" name="exampleUpload" accept=".jpg,.jpeg,.png,.pdf,.docx,.zip">
                 </div>
                 <div class="form-group">
@@ -1045,7 +1045,7 @@
             if (event.target === shareModal) shareModal.style.display = 'none';
         };
 
-        // Share Example form POST logic (unchanged)
+        // Share Example form POST logic
         document.getElementById('shareExampleForm').onsubmit = async function(e) {
             e.preventDefault();
             const form = e.target;
