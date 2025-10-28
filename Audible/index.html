@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audible - Choose Your Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .header {
+            background: white;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #ff6600, #ffaa00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            color: #666;
+            margin-top: -2px;
+        }
+
+        .browse-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .browse-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 10px 40px 10px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .language-selector {
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sign-in {
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .main-content {
+            background: #1a1a1a;
+            min-height: 600px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .title {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            color: #ccc;
+            font-size: 18px;
+            margin-bottom: 60px;
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: white;
+            border-bottom-color: #0066cc;
+        }
+
+        .tab:hover:not(.active) {
+            color: #ccc;
+        }
+
+        .plans-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: linear-gradient(135deg, #2d4a6b, #1e3a5f);
+            border-radius: 12px;
+            padding: 32px 24px;
+            width: 400px;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .plan-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .plan-price {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            background: #00cc66;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checkmark::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .select-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff9500, #ffb84d);
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 24px 0 16px 0;
+            transition: all 0.3s;
+        }
+
+        .select-btn:hover {
+            background: linear-gradient(135deg, #e6850e, #ff9500);
+            transform: translateY(-1px);
+        }
+
+        .select-btn:active {
+            transform: translateY(0);
+        }
+
+        .renewal-text {
+            color: #ccc;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .footer {
+            background: #f8f8f8;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .monthly-plan {
+            display: none;
+        }
+
+        .monthly-plan.active {
+            display: flex;
+        }
+
+        .annual-plans {
+            display: flex;
+        }
+
+        .annual-plans.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .plans-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .plan-card {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .title {
+                font-size: 36px;
+            }
+            
+            .search-input {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <a href="#" class="logo" onclick="trackClick('AudibleLogo', this)">
+                <div class="logo-icon">A</div>
+                <div>
+                    <div class="logo-text">audible</div>
+                    <div class="logo-subtitle">an amazon company</div>
+                </div>
+            </a>
+            <button class="browse-btn" onclick="trackClick('Browse', this)">Browse ▼</button>
+        </div>
+        
+        <div class="header-right">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Find your next great listen" onclick="trackClick('SearchInput', this)">
+                <button class="search-btn" onclick="trackClick('SearchButton', this)">🔍</button>
+            </div>
+            <a href="#" class="language-selector" onclick="trackClick('LanguageSelector_English-USD', this)">🌐 English - USD ▼</a>
+            <a href="#" class="sign-in" onclick="trackClick('SignIn', this)">Sign in</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="title">Choose the plan that's right for you</h1>
+        <p class="subtitle">Switch plans or cancel anytime.</p>
+        
+        <div class="tab-container">
+            <button class="tab" id="monthly-tab" onclick="switchTab('monthly')">Monthly</button>
+            <button class="tab active" id="annual-tab" onclick="switchTab('annual')">Annual</button>
+        </div>
+
+        <div class="plans-container">
+            <!-- Monthly Plan -->
+            <div class="monthly-plan" id="monthly-plans">
+                <div class="plan-card">
+                    <h2 class="plan-title">Premium Plus (1 credit/month)</h2>
+                    <div class="plan-price">$22.95/month</div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Get 1 credit a month to buy any audiobook from our entire collection. Yours to keep, even if you cancel.</div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Listen to thousands of additional audiobooks, podcasts, and Originals from the Plus Catalog.</div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Enjoy exclusive sales & discounts.</div>
+                    </div>
+                    
+                    <button class="select-btn" onclick="selectPlan('PremiumPlus_1credit_$22.95monthly')">Select this plan</button>
+                    <div class="renewal-text">Auto-renews at $22.95/month. Cancel anytime.</div>
+                </div>
+            </div>
+
+            <!-- Annual Plans -->
+            <div class="annual-plans" id="annual-plans">
+                <div class="plan-card">
+                    <h2 class="plan-title">Premium Plus (12 credits/yr)</h2>
+                    <div class="plan-price">$149.50/yr</div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Get 12 credits a year to buy any 12 audiobooks from our entire collection. Yours to keep, even if you cancel.</div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Listen to thousands of additional audiobooks, podcasts, and Originals from the Plus Catalog.</div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Enjoy exclusive sales & discounts.</div>
+                    </div>
+                    
+                    <button class="select-btn" onclick="selectPlan('PremiumPlus_12credits_$149.50yearly')">Select this plan</button>
+                    <div class="renewal-text">Auto-renews at $149.50/yr. Cancel anytime.</div>
+                </div>
+
+                <div class="plan-card">
+                    <h2 class="plan-title">Premium Plus (24 credits/yr)</h2>
+                    <div class="plan-price">$229.50/yr</div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Get 24 credits a year to buy any 24 audiobooks from our entire collection. Yours to keep, even if you cancel.</div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Listen to thousands of additional audiobooks, podcasts, and Originals from the Plus Catalog.</div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="checkmark"></div>
+                        <div class="feature-text">Enjoy member-only deals & discounts.</div>
+                    </div>
+                    
+                    <button class="select-btn" onclick="selectPlan('PremiumPlus_24credits_$229.50yearly')">Select this plan</button>
+                    <div class="renewal-text">Auto-renews at $229.50/yr. Cancel anytime.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div>© Copyright 1997 - 2025 Audible Inc.</div>
+        <div class="footer-links">
+            <a href="#" onclick="trackClick('AboutAudible_Footer', this)">About Audible</a>
+            <a href="#" onclick="trackClick('Careers_Footer', this)">Careers</a>
+            <a href="#" onclick="trackClick('ConditionsOfUse_Footer', this)">Conditions of Use</a>
+            <a href="#" onclick="trackClick('PrivacyNotice_Footer', this)">Privacy Notice</a>
+            <a href="#" onclick="trackClick('InterestBasedAds_Footer', this)">Interest-Based Ads</a>
+            <a href="#" onclick="trackClick('License_Footer', this)">License</a>
+            <a href="#" onclick="trackClick('Cookies_Footer', this)">Cookies</a>
+            <a href="#" onclick="trackClick('YourAdsPrivacyChoices_Footer', this)">Your ads privacy choices</a>
+        </div>
+        <div>United States (English)</div>
+    </footer>
+
+    <script>
+        // Tracking variables
+        let allClicks = [];
+        let startTime = Date.now();
+        let currentTab = 'annual';
+
+        // Get existing query parameters
+        function getExistingParams() {
+            const params = new URLSearchParams(window.location.search);
+            const existingParams = {};
+            for (let [key, value] of params) {
+                existingParams[key] = value;
+            }
+            return existingParams;
+        }
+
+        // Track clicks with contextual information
+        function trackClick(context, element) {
+            const timeElapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+            const clickData = `${context}-${timeElapsed}`;
+            allClicks.push(clickData);
+            
+            // Add visual feedback
+            if (element) {
+                element.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    element.style.transform = '';
+                }, 150);
+            }
+        }
+
+        // Switch between Monthly and Annual tabs
+        function switchTab(tab) {
+            const monthlyTab = document.getElementById('monthly-tab');
+            const annualTab = document.getElementById('annual-tab');
+            const monthlyPlans = document.getElementById('monthly-plans');
+            const annualPlans = document.getElementById('annual-plans');
+
+            // Track the tab click
+            trackClick(`${tab.charAt(0).toUpperCase() + tab.slice(1)}Tab`, 
+                      tab === 'monthly' ? monthlyTab : annualTab);
+
+            currentTab = tab;
+
+            if (tab === 'monthly') {
+                monthlyTab.classList.add('active');
+                annualTab.classList.remove('active');
+                monthlyPlans.classList.add('active');
+                annualPlans.classList.add('hidden');
+            } else {
+                annualTab.classList.add('active');
+                monthlyTab.classList.remove('active');
+                monthlyPlans.classList.remove('active');
+                annualPlans.classList.remove('hidden');
+            }
+        }
+
+        // Handle plan selection and redirect
+        function selectPlan(planDetails) {
+            const decisionTime = ((Date.now() - startTime) / 1000).toFixed(2);
+            
+            // Track the final selection
+            trackClick(`SelectThisPlan_${planDetails}`, event.target);
+            
+            // Prepare redirect URL with all parameters
+            const existingParams = getExistingParams();
+            const redirectParams = new URLSearchParams(existingParams);
+            
+            // Add tracking parameters
+            redirectParams.set('allClicks', allClicks.join(','));
+            redirectParams.set('finalChoice', planDetails);
+            redirectParams.set('decisionTime', decisionTime);
+            
+            // Small delay to allow visual feedback, then redirect
+            setTimeout(() => {
+                window.location.href = `https://qualtrics.com?${redirectParams.toString()}`;
+            }, 200);
+        }
+
+        // Add click tracking to all interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track clicks on any button or link that doesn't already have tracking
+            document.addEventListener('click', function(e) {
+                if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') {
+                    // Only track if not already tracked by specific handlers
+                    if (!e.target.onclick && !e.target.getAttribute('onclick')) {
+                        const context = e.target.textContent.trim().replace(/\s+/g, '_') || 'UnknownElement';
+                        trackClick(context, e.target);
+                    }
+                }
+            });
+        });
+
+        // Prevent default behavior for demo links
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.getAttribute('href') === '#') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
